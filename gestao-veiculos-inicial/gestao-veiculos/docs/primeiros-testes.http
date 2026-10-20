@@ -1,0 +1,43 @@
+### Verificar se a API responde
+GET http://localhost:8080/api/marcas
+
+### Criar marca
+POST http://localhost:8080/api/marcas
+Content-Type: application/json
+
+{
+  "nome": "Toyota",
+  "paisOrigem": "Japão"
+}
+
+### Criar modelo (ajuste marca.id conforme o ID retornado)
+POST http://localhost:8080/api/modelos
+Content-Type: application/json
+
+{
+  "nome": "Corolla",
+  "tipo": "Sedan",
+  "marca": { "id": 1 }
+}
+
+### Criar veículo (ajuste modelo.id conforme o ID retornado)
+POST http://localhost:8080/api/veiculos
+Content-Type: application/json
+
+{
+  "modelo": { "id": 1 },
+  "anoFabricacao": 2023,
+  "cor": "Prata",
+  "preco": 118900.00,
+  "quilometragem": 15000,
+  "status": "DISPONIVEL"
+}
+
+### Listar veículos
+GET http://localhost:8080/api/veiculos
+
+### Filtrar veículos disponíveis
+GET http://localhost:8080/api/veiculos?status=DISPONIVEL&precoMax=150000
+
+### Marcar veículo como vendido
+PATCH http://localhost:8080/api/veiculos/1/status?status=VENDIDO

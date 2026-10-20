@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gestão de Veículos</title>
+  <style>
+    :root { font-family: Inter, Segoe UI, Arial, sans-serif; color: #182230; background: #f4f6f9; }
+    body { margin: 0; }
+    header { background: #172b4d; color: white; padding: 22px max(20px, calc((100% - 1120px)/2)); }
+    header h1 { margin: 0 0 6px; font-size: 24px; }
+    header p { margin: 0; color: #d6deea; }
+    main { max-width: 1120px; margin: 24px auto; padding: 0 18px 40px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 16px; }
+    section { background: white; border: 1px solid #e0e5ec; border-radius: 12px; padding: 18px; margin-bottom: 18px; box-shadow: 0 2px 8px #172b4d0b; }
+    h2 { font-size: 18px; margin: 0 0 14px; }
+    label { display: block; font-size: 13px; margin: 10px 0 5px; color: #475467; }
+    input, select { width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #cbd5e1; border-radius: 7px; background: white; }
+    button { border: 0; border-radius: 7px; background: #2457c5; color: white; padding: 10px 13px; cursor: pointer; margin: 10px 6px 0 0; }
+    button.secondary { background: #e8edf5; color: #24344d; }
+    button.danger { background: #a52d38; }
+    .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+    .notice { padding: 12px 14px; border-radius: 8px; margin-bottom: 16px; background: #e8f2ff; color: #16417a; }
+    .notice.error { background: #fff0f0; color: #8d1c25; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { padding: 10px 8px; border-bottom: 1px solid #e8ecf2; text-align: left; }
+    th { color: #475467; background: #f8fafc; }
+    .table-wrap { overflow-x: auto; }
+    .muted { color: #667085; font-size: 13px; }
+    @media (max-width: 600px) { header { padding: 20px; } }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Gestão de Veículos</h1>
+  <p>Cadastro, consulta e controle de estoque da concessionária</p>
+</header>
+<main>
+  <div id="notice" class="notice">Carregando dados da API...</div>
+
+  <div class="grid">
+    <section>
+      <h2>1. Cadastrar marca</h2>
+      <form id="marcaForm">
+        <label for="marcaNome">Nome da marca</label>
+        <input id="marcaNome" required maxlength="80" placeholder="Ex.: Toyota">
+        <label for="marcaPais">País de origem</label>
+        <input id="marcaPais" maxlength="60" placeholder="Ex.: Japão">
+        <button type="submit">Salvar marca</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>2. Cadastrar modelo</h2>
+      <form id="modeloForm">
+        <label for="modeloNome">Nome do modelo</label>
+        <input id="modeloNome" required maxlength="100" placeholder="Ex.: Corolla">
+        <label for="modeloTipo">Tipo</label>
+        <input id="modeloTipo" required maxlength="40" placeholder="Ex.: Sedan">
+        <label for="modeloMarca">Marca</label>
+        <select id="modeloMarca" required><option value="">Cadastre uma marca primeiro</option></select>
+        <button type="submit">Salvar modelo</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>3. Cadastrar veículo</h2>
+      <form id="veiculoForm">
+        <label for="veiculoModelo">Modelo</label>
+        <select id="veiculoModelo" required><option value="">Cadastre um modelo primeiro</option></select>
+        <div class="row">
+          <div><label for="ano">Ano</label><input id="ano" type="number" min="1886" max="2100" required placeholder="2023"></div>
+          <div><label for="cor">Cor</label><input id="cor" required maxlength="40" placeholder="Prata"></div>
+        </div>
+        <div class="row">
+          <div><label for="preco">Preço (R$)</label><input id="preco" type="number" min="0.01" step="0.01" required placeholder="85000"></div>
+          <div><label for="km">Quilometragem</label><input id="km" type="number" min="0" step="1" required placeholder="15000"></div>
+        </div>
+        <label for="status">Status</label>
+        <select id="status">
+          <option value="DISPONIVEL">Disponível</option>
+          <option value="VENDIDO">Vendido</option>
+          <option value="DESCONTINUADO">Descontinuado</option>
+        </select>
+        <button type="submit">Salvar veículo</button>
+      </form>
+    </section>
+  </div>
+
+  <section>
+    <h2>Consultar e filtrar estoque</h2>
+    <div class="row">
+      <div><label for="fMarca">Marca</label><select id="fMarca"><option value="">Todas</option></select></div>
+      <div><label for="fModelo">Modelo</label><select id="fModelo"><option value="">Todos</option></select></div>
+      <div><label for="fAno">Ano</label><input id="fAno" type="number" placeholder="Ex.: 2023"></div>
+      <div><label for="fStatus">Status</label><select id="fStatus"><option value="">Todos</option><option>DISPONIVEL</option><option>VENDIDO</option><option>DESCONTINUADO</option></select></div>
+      <div><label for="fMin">Preço mínimo</label><input id="fMin" type="number" min="0" step="0.01"></div>
+      <div><label for="fMax">Preço máximo</label><input id="fMax" type="number" min="0" step="0.01"></div>
+      <div><label for="fTipo">Tipo</label><input id="fTipo" placeholder="Ex.: SUV"></div>
+    </div>
+    <button id="filtrarBtn" type="button">Aplicar filtros</button>
+    <button id="limparBtn" type="button" class="secondary">Limpar filtros</button>
+    <button id="atualizarBtn" type="button" class="secondary">Atualizar lista</button>
+    <p class="muted">Para editar preço, quilometragem ou status, use o botão Editar na linha do veículo.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>ID</th><th>Marca / Modelo</th><th>Tipo</th><th>Ano</th><th>Cor</th><th>Preço</th><th>KM</th><th>Status</th><th>Ações</th></tr></thead>
+        <tbody id="veiculosTabela"><tr><td colspan="9">Carregando...</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+let marcas = [], modelos = [], veiculos = [];
+
+function aviso(texto, erro = false) {
+  const el = $('notice');
+  el.textContent = texto;
+  el.className = erro ? 'notice error' : 'notice';
+}
+async function api(url, options = {}) {
+  const response = await fetch(url, {
+    headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
+    ...options
+  });
+  if (response.status === 204) return null;
+  const data = await response.json().catch(() => null);
+  if (!response.ok) throw new Error(data?.mensagem || data?.message || `Erro HTTP ${response.status}`);
+  return data;
+}
+function preencherSelect(select, itens, labelFn, placeholder) {
+  const atual = select.value;
+  select.innerHTML = `<option value="">${placeholder}</option>` +
+    itens.map(x => `<option value="${x.id}">${labelFn(x)}</option>`).join('');
+  if (itens.some(x => String(x.id) === atual)) select.value = atual;
+}
+async function carregarCadastros() {
+  [marcas, modelos] = await Promise.all([api('/api/marcas'), api('/api/modelos')]);
+  preencherSelect($('modeloMarca'), marcas, m => m.nome, 'Selecione uma marca');
+  preencherSelect($('fMarca'), marcas, m => m.nome, 'Todas');
+  preencherSelect($('veiculoModelo'), modelos, m => `${m.marca?.nome || 'Marca'} — ${m.nome}`, 'Selecione um modelo');
+  preencherSelect($('fModelo'), modelos, m => `${m.marca?.nome || 'Marca'} — ${m.nome}`, 'Todos');
+}
+function moeda(valor) {
+  return Number(valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+async function carregarVeiculos() {
+  const params = new URLSearchParams();
+  const pares = {
+    marcaId: $('fMarca').value, modeloId: $('fModelo').value,
+    ano: $('fAno').value, status: $('fStatus').value,
+    precoMin: $('fMin').value, precoMax: $('fMax').value, tipo: $('fTipo').value
+  };
+  Object.entries(pares).forEach(([k,v]) => { if (v !== '') params.set(k, v); });
+  veiculos = await api('/api/veiculos' + (params.size ? `?${params}` : ''));
+  const tbody = $('veiculosTabela');
+  if (!veiculos.length) {
+    tbody.innerHTML = '<tr><td colspan="9">Nenhum veículo encontrado.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = veiculos.map(v => `<tr>
+    <td>${v.id}</td><td>${v.modelo?.marca?.nome || '-'} ${v.modelo?.nome || ''}</td>
+    <td>${v.modelo?.tipo || '-'}</td><td>${v.anoFabricacao}</td><td>${v.cor}</td>
+    <td>${moeda(v.preco)}</td><td>${Number(v.quilometragem).toLocaleString('pt-BR')}</td><td>${v.status}</td>
+    <td><button type="button" onclick="editarVeiculo(${v.id})">Editar</button>
+    <button type="button" class="danger" onclick="removerVeiculo(${v.id})">Excluir</button></td>
+  </tr>`).join('');
+}
+async function recarregar() {
+  await carregarCadastros();
+  await carregarVeiculos();
+}
+$('marcaForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  try {
+    await api('/api/marcas', { method:'POST', body: JSON.stringify({ nome:$('marcaNome').value.trim(), paisOrigem:$('marcaPais').value.trim() || null }) });
+    e.target.reset(); await recarregar(); aviso('Marca cadastrada com sucesso.');
+  } catch (err) { aviso(err.message, true); }
+});
+$('modeloForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  try {
+    await api('/api/modelos', { method:'POST', body: JSON.stringify({ nome:$('modeloNome').value.trim(), tipo:$('modeloTipo').value.trim(), marca:{ id:Number($('modeloMarca').value) } }) });
+    e.target.reset(); await recarregar(); aviso('Modelo cadastrado com sucesso.');
+  } catch (err) { aviso(err.message, true); }
+});
+$('veiculoForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  try {
+    await api('/api/veiculos', { method:'POST', body: JSON.stringify({
+      modelo:{ id:Number($('veiculoModelo').value) }, anoFabricacao:Number($('ano').value),
+      cor:$('cor').value.trim(), preco:Number($('preco').value),
+      quilometragem:Number($('km').value), status:$('status').value
+    })});
+    e.target.reset(); await recarregar(); aviso('Veículo cadastrado com sucesso.');
+  } catch (err) { aviso(err.message, true); }
+});
+$('filtrarBtn').addEventListener('click', async () => {
+  try { await carregarVeiculos(); aviso(`${veiculos.length} veículo(s) encontrado(s).`); }
+  catch (err) { aviso(err.message, true); }
+});
+$('limparBtn').addEventListener('click', async () => {
+  ['fMarca','fModelo','fAno','fStatus','fMin','fMax','fTipo'].forEach(id => $(id).value = '');
+  try { await carregarVeiculos(); aviso('Filtros limpos.'); } catch (err) { aviso(err.message, true); }
+});
+$('atualizarBtn').addEventListener('click', async () => {
+  try { await recarregar(); aviso('Lista atualizada.'); } catch (err) { aviso(err.message, true); }
+});
+$('fMarca').addEventListener('change', () => {
+  const marcaId = $('fMarca').value;
+  const filtrados = marcaId ? modelos.filter(m => String(m.marca?.id) === marcaId) : modelos;
+  preencherSelect($('fModelo'), filtrados, m => `${m.marca?.nome || 'Marca'} — ${m.nome}`, 'Todos');
+});
+async function editarVeiculo(id) {
+  const v = veiculos.find(x => x.id === id);
+  if (!v) return;
+  const preco = prompt('Novo preço (R$):', v.preco);
+  if (preco === null) return;
+  const km = prompt('Nova quilometragem:', v.quilometragem);
+  if (km === null) return;
+  const status = prompt('Status: DISPONIVEL, VENDIDO ou DESCONTINUADO', v.status);
+  if (status === null) return;
+  const statusNormalizado = status.trim().toUpperCase();
+  if (!['DISPONIVEL','VENDIDO','DESCONTINUADO'].includes(statusNormalizado)) {
+    aviso('Status inválido.', true); return;
+  }
+  try {
+    await api(`/api/veiculos/${id}`, { method:'PUT', body: JSON.stringify({
+      modelo:{ id:v.modelo.id }, anoFabricacao:v.anoFabricacao, cor:v.cor,
+      preco:Number(preco), quilometragem:Number(km), status:statusNormalizado
+    })});
+    await carregarVeiculos(); aviso('Veículo atualizado.');
+  } catch (err) { aviso(err.message, true); }
+}
+async function removerVeiculo(id) {
+  if (!confirm(`Deseja realmente excluir o veículo ${id}?`)) return;
+  try {
+    await api(`/api/veiculos/${id}`, { method:'DELETE' });
+    await carregarVeiculos(); aviso('Veículo removido.');
+  } catch (err) { aviso(err.message, true); }
+}
+recarregar().then(() => aviso('Sistema pronto. Cadastre uma marca, um modelo e um veículo.'))
+  .catch(err => aviso(`Não foi possível carregar a API: ${err.message}`, true));
+</script>
+</body>
+</html>

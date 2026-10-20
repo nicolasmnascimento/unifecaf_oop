@@ -1,0 +1,16 @@
+com\concessionaria\veiculos\exception\RecursoNaoEncontradoException.class
+com\concessionaria\veiculos\model\StatusVeiculo.class
+com\concessionaria\veiculos\controller\MarcaController.class
+com\concessionaria\veiculos\controller\ModeloController.class
+com\concessionaria\veiculos\model\Veiculo.class
+com\concessionaria\veiculos\exception\ApiExceptionHandler.class
+com\concessionaria\veiculos\GestaoVeiculosApplication.class
+com\concessionaria\veiculos\service\ModeloService.class
+com\concessionaria\veiculos\model\Modelo.class
+com\concessionaria\veiculos\repository\MarcaRepository.class
+com\concessionaria\veiculos\service\MarcaService.class
+com\concessionaria\veiculos\repository\VeiculoRepository.class
+com\concessionaria\veiculos\controller\VeiculoController.class
+com\concessionaria\veiculos\service\VeiculoService.class
+com\concessionaria\veiculos\repository\ModeloRepository.class
+com\concessionaria\veiculos\model\Marca.class

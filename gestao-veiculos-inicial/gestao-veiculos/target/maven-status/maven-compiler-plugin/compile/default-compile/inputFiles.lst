@@ -1,0 +1,16 @@
+C:\Users\nicol\Downloads\gestao-veiculos-inicial\gestao-veiculos\src\main\java\com\concessionaria\veiculos\controller\MarcaController.java
+C:\Users\nicol\Downloads\gestao-veiculos-inicial\gestao-veiculos\src\main\java\com\concessionaria\veiculos\controller\ModeloController.java
+C:\Users\nicol\Downloads\gestao-veiculos-inicial\gestao-veiculos\src\main\java\com\concessionaria\veiculos\controller\VeiculoController.java
+C:\Users\nicol\Downloads\gestao-veiculos-inicial\gestao-veiculos\src\main\java\com\concessionaria\veiculos\exception\ApiExceptionHandler.java
+C:\Users\nicol\Downloads\gestao-veiculos-inicial\gestao-veiculos\src\main\java\com\concessionaria\veiculos\exception\RecursoNaoEncontradoException.java
+C:\Users\nicol\Downloads\gestao-veiculos-inicial\gestao-veiculos\src\main\java\com\concessionaria\veiculos\GestaoVeiculosApplication.java
+C:\Users\nicol\Downloads\gestao-veiculos-inicial\gestao-veiculos\src\main\java\com\concessionaria\veiculos\model\Marca.java
+C:\Users\nicol\Downloads\gestao-veiculos-inicial\gestao-veiculos\src\main\java\com\concessionaria\veiculos\model\Modelo.java
+C:\Users\nicol\Downloads\gestao-veiculos-inicial\gestao-veiculos\src\main\java\com\concessionaria\veiculos\model\StatusVeiculo.java
+C:\Users\nicol\Downloads\gestao-veiculos-inicial\gestao-veiculos\src\main\java\com\concessionaria\veiculos\model\Veiculo.java
+C:\Users\nicol\Downloads\gestao-veiculos-inicial\gestao-veiculos\src\main\java\com\concessionaria\veiculos\repository\MarcaRepository.java
+C:\Users\nicol\Downloads\gestao-veiculos-inicial\gestao-veiculos\src\main\java\com\concessionaria\veiculos\repository\ModeloRepository.java
+C:\Users\nicol\Downloads\gestao-veiculos-inicial\gestao-veiculos\src\main\java\com\concessionaria\veiculos\repository\VeiculoRepository.java
+C:\Users\nicol\Downloads\gestao-veiculos-inicial\gestao-veiculos\src\main\java\com\concessionaria\veiculos\service\MarcaService.java
+C:\Users\nicol\Downloads\gestao-veiculos-inicial\gestao-veiculos\src\main\java\com\concessionaria\veiculos\service\ModeloService.java
+C:\Users\nicol\Downloads\gestao-veiculos-inicial\gestao-veiculos\src\main\java\com\concessionaria\veiculos\service\VeiculoService.java
