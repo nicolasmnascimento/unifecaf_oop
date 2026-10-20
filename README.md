@@ -1,4 +1,69 @@
-Sistema de Gestão de Veículos
+# Sistema de Gestão de Veículos
+
+## Descrição do Projeto
+
+API REST orientada a objetos para controle de estoque de uma concessionária, desenvolvida como projeto acadêmico da disciplina de Programação Orientada a Objetos.
+
+## Sobre o Projeto
+
+O sistema permite cadastrar marcas, modelos e veículos, consultar o estoque com filtros combinados e manter as informações atualizadas. A comunicação é feita por uma API REST em formato JSON, e há uma interface web simples para testar as principais operações.
+
+**Autor(a):** preencher  
+**Disciplina:** Programação Orientada a Objetos  
+**Instituição:** preencher
+
+## Funcionalidades
+
+### Marcas
+- CRUD de marcas.
+
+### Modelos
+- CRUD de modelos, sempre vinculados a uma marca.
+
+### Veículos
+- CRUD de veículos, vinculados a um modelo (a marca é obtida pelo modelo).  
+- Filtros combináveis de veículos por marca, modelo, preço mínimo e máximo, ano, status e tipo.  
+- Alteração específica do status do veículo (DISPONÍVEL, VENDIDO, DESCONTINUADO).  
+
+### Validação e Interface
+- Validação dos dados recebidos e respostas de erro padronizadas.  
+- Interface web simples em `index.html`.
+
+## Tecnologias Utilizadas
+
+| Tecnologia | Uso |
+|------------|-----|
+| Java 21 | Linguagem do projeto |
+| Spring Boot 3.5.6 | Framework da aplicação e servidor web embutido |
+| Spring Web | Endpoints REST |
+| Spring Data JPA / Hibernate | Mapeamento objeto-relacional e acesso ao banco |
+| Bean Validation | Validação dos dados (@NotNull, @NotBlank, @DecimalMin...) |
+| MySQL 8 | Banco de dados definitivo |
+| H2 | Banco em memória para testes rápidos (perfil padrão) |
+| Maven | Gerenciamento de dependências e execução |
+| JUnit (Spring Boot Test) | Testes automatizados |
+
+## Arquitetura
+
+O projeto segue uma arquitetura em camadas, com cada pasta responsável por uma parte do sistema:
+
+**Fluxo:** Cliente → Controller → Service → Repository → Banco de dados
+
+### Camadas e Responsabilidades
+- **controller:** Recebe as requisições HTTP e devolve JSON  
+- **service:** Regras de negócio e validações  
+- **repository:** Acesso ao banco de dados (Spring Data JPA)  
+- **model:** Entidades do domínio: Marca, Modelo, Veiculo, StatusVeiculo  
+- **exception:** Exceções próprias e tratamento padronizado de erros  
+
+## Modelo de Dados
+
+**Relacionamentos:**
+
+- Marca (1) → (N) Modelo  
+- Modelo (1) → (N) Veículo  
+
+Uma marca possui vários modelos, e um modelo possui vários veículos.Sistema de Gestão de Veículos
 
 API REST orientada a objetos para controle de estoque de uma concessionária, desenvolvida como projeto acadêmico da disciplina de Programação Orientada a Objetos.
 
